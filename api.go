@@ -8,6 +8,24 @@ import (
 	"github.com/unixpickle/gocube"
 )
 
+func GenerateCaptionedImage(size int, fontSize float64, caption string,
+	cube gocube.StickerCube) image.Image {
+	dest := image.NewRGBA(image.Rect(0, 0, size, size))
+	ctx := draw2dimg.NewGraphicContext(dest)
+
+	captionImage := generateCaptionImage(size, fontSize, caption)
+	captionHeight := float64(captionImage.Bounds().Dy())
+	remainingSize := float64(size) - captionHeight
+
+	ctx.DrawImage(captionImage)
+
+	cubeImage := GenerateImage(int(remainingSize), cube)
+	ctx.Translate((float64(size)-remainingSize)/2, captionHeight)
+	ctx.DrawImage(cubeImage)
+
+	return dest
+}
+
 func GenerateImage(size int, cube gocube.StickerCube) image.Image {
 	dest := image.NewRGBA(image.Rect(0, 0, size, size))
 	ctx := draw2dimg.NewGraphicContext(dest)
