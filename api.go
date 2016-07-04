@@ -31,11 +31,13 @@ func GenerateImage(size int, cube gocube.StickerCube) image.Image {
 	ctx := draw2dimg.NewGraphicContext(dest)
 
 	scale := float64(size) / 500
-	drawBackground(ctx, scale)
+	ctx.Scale(-1, 1)
+	ctx.Translate(-float64(size), 0)
 
-	drawTopFace(ctx, scale, colorsForStickers(cube[:9]))
-	drawFrontFace(ctx, scale, colorsForStickers(cube[9*2:9*3]))
-	drawRightFace(ctx, scale, colorsForStickers(cube[9*4:9*5]))
+	drawBackground(ctx, scale)
+	drawTopFace(ctx, scale, mirrorDiagonally(colorsForStickers(cube[:9])))
+	drawRightFace(ctx, scale, mirrorHorizontally(colorsForStickers(cube[9*4:9*5])))
+	drawFrontFace(ctx, scale, mirrorHorizontally(colorsForStickers(cube[9*2:9*3])))
 
 	return dest
 }
@@ -57,4 +59,18 @@ func colorForSticker(num int) color.Color {
 		{0xe9, 0x36, 0x4b, 0xff},
 		{0xff, 0xa5, 0x00, 0xff},
 	}[num-1]
+}
+
+func mirrorHorizontally(colors []color.Color) []color.Color {
+	colors[0], colors[2] = colors[2], colors[0]
+	colors[3], colors[5] = colors[5], colors[3]
+	colors[6], colors[8] = colors[8], colors[6]
+	return colors
+}
+
+func mirrorDiagonally(colors []color.Color) []color.Color {
+	colors[1], colors[3] = colors[3], colors[1]
+	colors[2], colors[6] = colors[6], colors[2]
+	colors[5], colors[7] = colors[7], colors[5]
+	return colors
 }

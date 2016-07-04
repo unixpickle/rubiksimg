@@ -6,7 +6,7 @@ import (
 	"github.com/llgcode/draw2d"
 )
 
-func drawFrontFace(ctx draw2d.GraphicContext, scale float64, colors []color.Color) {
+func drawRightFace(ctx draw2d.GraphicContext, scale float64, colors []color.Color) {
 	ctx.SetFillColor(colors[0])
 	ctx.MoveTo(scale*13.305428, scale*51.540590)
 	ctx.LineTo(scale*40.343717, scale*72.760901)
@@ -161,7 +161,7 @@ func drawFrontFace(ctx draw2d.GraphicContext, scale float64, colors []color.Colo
 	ctx.Fill()
 }
 
-func drawRightFace(ctx draw2d.GraphicContext, scale float64, colors []color.Color) {
+func drawFrontFace(ctx draw2d.GraphicContext, scale float64, colors []color.Color) {
 	ctx.SetFillColor(colors[0])
 	ctx.MoveTo(scale*182.178510, scale*158.388410)
 	ctx.LineTo(scale*273.788920, scale*136.410740)
